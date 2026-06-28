@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Light theme — toggled on by the user */
+:root {
+  --bg-deep: 255 255 255;
+  --bg-card: 243 246 251;
+  --text-primary: 26 54 93;
+  --text-secondary: 91 107 130;
+  --soft: 0 0 0;
+}
+
+/* Dark theme — the site's default look: black & red luxury palette */
+html.dark {
+  --bg-deep: 11 15 25;
+  --bg-card: 19 26 44;
+  --text-primary: 248 250 252;
+  --text-secondary: 148 163 184;
+  --soft: 255 255 255;
+}
+
+body {
+  @apply bg-background-deep text-text-primary font-body antialiased;
+  background-image: radial-gradient(circle at 50% -10%, rgba(229, 62, 62, 0.06) 0%, rgba(255, 255, 255, 0) 55%);
+  background-attachment: fixed;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  background-image: radial-gradient(circle at 50% -10%, rgba(74, 21, 33, 0.55) 0%, rgba(11, 15, 25, 0) 60%);
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+/* Signature structural device: a thin chain-link divider,
+   echoing the handcuff-chain motif in the Kinksfunplay mark. */
+.chain-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(229, 62, 62, 0.45), transparent);
+}
+.chain-divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(229, 62, 62, 0.6);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  background: rgb(var(--bg-deep));
+}
+
+/* Marquee ticker — scrolls continuously to the left */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Visible keyboard focus ring, respecting accessibility */
+:focus-visible {
+  outline: 2px solid #e53e3e;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--bg-card));
+}
+::-webkit-scrollbar-thumb {
+  background: #e53e3e;
+  border-radius: 8px;
+}
