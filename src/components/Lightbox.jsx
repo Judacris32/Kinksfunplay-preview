@@ -2,6 +2,18 @@ import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 
+// Same glob-based lookup as Gallery.jsx — plain "/src/..." string paths only
+// work in dev and break once built for production, so images must be
+// resolved through an actual Vite-processed import.
+const galleryImageModules = import.meta.glob('../assets/gallery/*.{jpg,jpeg,png}', {
+  eager: true,
+  import: 'default',
+})
+const getGalleryImage = (filename) => {
+  const match = Object.entries(galleryImageModules).find(([path]) => path.endsWith('/' + filename))
+  return match ? match[1] : ''
+}
+
 export default function Lightbox({ items, index, onClose, onPrev, onNext }) {
   const handleKeyDown = useCallback(
     (e) => {
@@ -79,7 +91,7 @@ export default function Lightbox({ items, index, onClose, onPrev, onNext }) {
           onClick={(e) => e.stopPropagation()}
         >
           <img
-            src={`/src/assets/gallery/${item.file}`}
+            src={getGalleryImage(item.file)}
             alt={item.alt}
             className="max-h-[75vh] w-auto rounded-2xl border border-soft/10 shadow-aura-lg object-contain"
           />

@@ -3,6 +3,18 @@ import { motion } from 'framer-motion'
 import { Expand } from 'lucide-react'
 import Lightbox from './Lightbox.jsx'
 
+// Vite needs a real import (not a plain string path) to correctly bundle and
+// resolve image URLs in production. This glob imports every gallery photo at
+// build time and lets us look any of them up by filename below.
+const galleryImageModules = import.meta.glob('../assets/gallery/*.{jpg,jpeg,png}', {
+  eager: true,
+  import: 'default',
+})
+const getGalleryImage = (filename) => {
+  const match = Object.entries(galleryImageModules).find(([path]) => path.endsWith('/' + filename))
+  return match ? match[1] : ''
+}
+
 const CATEGORIES = ['All', 'Main Chamber', 'Equipment', 'Wardrobe & Storage', 'Kitchenette', 'Bathroom', 'Lounge']
 
 const ALL_PHOTOS = [
@@ -112,9 +124,9 @@ export default function Gallery() {
             onClick={() => openLightbox(i)}
             className={`group relative rounded-2xl overflow-hidden border border-soft/10 hover:border-brand-red/30 transition-colors duration-300 text-left ${item.span}`}
           >
-            {/* Real studio photo, located at src/assets/gallery/{item.file} */}
+            {/* Real studio photo, resolved via import.meta.glob above for correct production URLs */}
             <img
-              src={`/src/assets/gallery/${item.file}`}
+              src={getGalleryImage(item.file)}
               alt={item.alt}
               loading="lazy"
               className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-500 ease-out"

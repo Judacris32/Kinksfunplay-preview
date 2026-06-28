@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ShieldCheck, MapPin, ArrowRight } from 'lucide-react'
+import heroImage from '../assets/gallery/ss2.jpg'
 
 export default function Hero() {
   return (
@@ -69,7 +70,7 @@ export default function Hero() {
         >
           {/* Real studio photo — main chamber wide shot, located at src/assets/gallery/ss2.jpg */}
           <img
-            src="/src/assets/gallery/ss2.jpg"
+            src={heroImage}
             alt="Kinksfunplay studio main chamber"
             loading="lazy"
             className="absolute inset-0 w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
